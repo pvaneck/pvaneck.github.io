@@ -8,6 +8,13 @@ refstackApp.controller('capabilitiesController', ['$scope', '$http', function($s
     $scope.version = '2015.03';
     $scope.hideAchievements = true;
     $scope.hideTests = true;
+    $scope.target = 'platform';
+    $scope.status = {
+        required: 'required',
+        advisory: '',
+        deprecated: '',
+        removed: ''
+    };
 
     $scope.update = function() {
         // Rate-limiting is an issue with this URL. Using a local copy for now.
@@ -23,13 +30,6 @@ refstackApp.controller('capabilitiesController', ['$scope', '$http', function($s
         });
     }
     $scope.update()
-    $scope.target = 'platform';
-    $scope.status = {
-        required: 'required',
-        advisory: '',
-        deprecated: '',
-        removed: ''
-    };
 
     $scope.filterProgram = function(capability){
         var components = $scope.capabilities.components;
@@ -61,16 +61,3 @@ refstackApp.controller('capabilitiesController', ['$scope', '$http', function($s
             capability.status === $scope.status.removed;
     };
 }]);
-
-// Convert an object of objects to an array of objects to use with ng-repeat
-// filters.
-refstackApp.filter('arrayConverter', function() {
-    return function(objects) {
-        var array = [];
-        angular.forEach(objects, function(object, key) {
-            object['id'] = key;
-            array.push(object);
-        });
-        return array;
-    };
-});
